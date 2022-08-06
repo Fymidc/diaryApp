@@ -1,0 +1,9 @@
+package com.example.mydaily.dtos;
+
+import lombok.Data;
+
+@Data
+public class CommentUpdateRequest {
+
+	private String text;
+}
