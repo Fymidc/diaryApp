@@ -31,7 +31,7 @@ public class AnswerController {
 		return answersService.getAllAnswers(id);
 	}
 	
-	@GetMapping("/{id}")
+	@GetMapping("/oneanswer/{id}")
 	public Answers getOneAnswerById(@PathVariable Long id ) {
 		return answersService.getOneAnswerById(id);
 	}

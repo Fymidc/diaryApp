@@ -39,7 +39,7 @@ public class FriendsController {
 		friendsService.deleteFriend(id);
 	}
 	
-	@GetMapping("/{id}")
+	@GetMapping("/onefriends/{id}")
 	public Friends getOneFriendsById(@PathVariable Long id) {
 		return friendsService.getOneFriendsById(id);
 	}

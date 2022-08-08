@@ -3,12 +3,15 @@ package com.example.mydaily.business.concretes;
 import java.util.List;
 import java.util.Optional;
 
+import org.springframework.stereotype.Service;
+
 import com.example.mydaily.business.abstracts.FriendsService;
 import com.example.mydaily.dataaccess.FriendsDao;
 import com.example.mydaily.dataaccess.UserDao;
 import com.example.mydaily.entities.Friends;
 import com.example.mydaily.entities.User;
 
+@Service
 public class FriendsManager implements FriendsService {
 
 	private final FriendsDao friendsDao;
@@ -19,6 +22,7 @@ public class FriendsManager implements FriendsService {
 		this.userDao=userDao;
 		
 	}
+	
 	
 	@Override
 	public List<Friends> getAllFriends(Long userid) {
@@ -38,12 +42,13 @@ public class FriendsManager implements FriendsService {
 		
 		if(user.isPresent() && friends.isPresent()) {
 			User findedUser = user.get();
-			Friends findedFriends = friends.get();
+			List<Friends> findedFriends = (List<Friends>) friends.get();
 			
-			findedUser.setFriends(findedFriends);
+			findedUser.setFriends((List<Friends>) findedFriends);
 		}
 		
 		return null;
+		
 	}
 
 	@Override
