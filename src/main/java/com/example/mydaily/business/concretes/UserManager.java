@@ -2,11 +2,14 @@ package com.example.mydaily.business.concretes;
 
 import java.util.List;
 import java.util.Optional;
+import java.util.stream.Collectors;
 
 import org.springframework.stereotype.Service;
 
 import com.example.mydaily.business.abstracts.UserService;
 import com.example.mydaily.dataaccess.UserDao;
+import com.example.mydaily.dtos.UserResponse;
+import com.example.mydaily.entities.Friends;
 import com.example.mydaily.entities.User;
 
 @Service
@@ -19,8 +22,10 @@ public class UserManager implements UserService {
 	}
 	
 	@Override
-	public List<User> getAllUsers(Optional<Long> userid) {
-		return userdao.findAll();
+	public List<UserResponse> getAllUsers() {
+		List<User> list;
+		list = userdao.findAll();
+		return list.stream().map(r-> new UserResponse(r)).collect(Collectors.toList());
 	}
 
 	@Override
@@ -30,7 +35,6 @@ public class UserManager implements UserService {
 		userToSave.setId(user.getId());
 		userToSave.setUserName(user.getUserName());
 		userToSave.setPassword(user.getPassword());
-		userToSave.setBios(user.getBios());
 		userToSave.setFriends(user.getFriends());
 		
 		return userdao.save(userToSave);
@@ -44,13 +48,15 @@ public class UserManager implements UserService {
 	@Override
 	public void deleteOneUser(Long userid) {
 		userdao.deleteById(userid);
-		
+		 
+		 
 	}
 
 	@Override
-	public User getOneUserByUserName(String username) {
+	public UserResponse getOneUserByUserName(String username) {
 		
-		return userdao.findByUserName(username);
+		User user = userdao.findByUserName(username);
+		return new UserResponse(user);
 	}
 
 	@Override
@@ -61,7 +67,6 @@ public class UserManager implements UserService {
 			User foundedUser = user.get();
 			foundedUser.setUserName(newUser.getUserName());
 			foundedUser.setPassword(newUser.getPassword());
-			foundedUser.setBios(newUser.getBios());
 			
 			userdao.save(foundedUser);
 			
@@ -69,6 +74,15 @@ public class UserManager implements UserService {
 		}
 		
 		return null;
+	}
+
+	@Override
+	public List<Friends> getAllFriends(Long userid) {
+		User user = userdao.findById(userid).get();
+		
+		List<Friends> friends = user.getFriends();
+		
+		return friends;
 	}
 	
 

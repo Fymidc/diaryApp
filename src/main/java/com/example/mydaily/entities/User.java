@@ -30,7 +30,7 @@ public class User {
 	
 	private String password;
 	
-	private String bios;
+	//private String bios;
 	
 	@OneToMany(targetEntity=Friends.class, mappedBy="user", fetch=FetchType.EAGER)
 	private List<Friends> friends; 

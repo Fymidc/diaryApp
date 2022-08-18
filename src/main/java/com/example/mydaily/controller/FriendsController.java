@@ -1,6 +1,5 @@
 package com.example.mydaily.controller;
 
-import java.util.List;
 
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -24,11 +23,7 @@ public class FriendsController {
 		
 	}
 	
-	@GetMapping("/{id}")
-	public List<Friends> getAllFriends(@PathVariable Long id){
-		return friendsService.getAllFriends(id);
-	}
-	
+
 	@PostMapping
 	public Friends AddFriedns(@RequestParam Long userid,@RequestParam Long friendsid  ) {
 		return friendsService.AddFriedns(userid, friendsid);
@@ -39,12 +34,12 @@ public class FriendsController {
 		friendsService.deleteFriend(id);
 	}
 	
-	@GetMapping("/onefriends/{id}")
+	@GetMapping("/{id}")
 	public Friends getOneFriendsById(@PathVariable Long id) {
 		return friendsService.getOneFriendsById(id);
 	}
 	
-	@GetMapping("/{name}")
+	@GetMapping("/name/{name}")
 	public Friends getOneFriendsByName(@PathVariable String name) {
 		return friendsService.getOneFriendsByName(name);
 	}

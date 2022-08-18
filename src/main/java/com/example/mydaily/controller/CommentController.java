@@ -33,7 +33,7 @@ public class CommentController {
 		return commentService.getAllComments(userid, postid, diaryid);
 	}
 	
-	@DeleteMapping("/{işd}")
+	@DeleteMapping("/{id}")
 	void deleteOneComment(@PathVariable Long id) {
 		commentService.deleteOneComment(id);
 	}
