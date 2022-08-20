@@ -12,7 +12,7 @@ public interface UserService {
 	User createOneUser(User user);
 	User getOneUserById(Long userid);
 	void deleteOneUser(Long userid);
-	UserResponse getOneUserByUserName(String username);
+	User getOneUserByUserName(String username);
 	User updateOneUser(Long userid,User newUser);
 	List<Friends> getAllFriends(Long userid);
 }

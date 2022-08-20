@@ -1,16 +1,26 @@
 package com.example.mydaily.config;
 
+
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.http.HttpMethod;
 import org.springframework.security.authentication.AuthenticationManager;
-import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;
+import org.springframework.security.authentication.dao.DaoAuthenticationProvider;
+
+import org.springframework.security.config.annotation.authentication.configuration.AuthenticationConfiguration;
+
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
+
 import org.springframework.security.config.http.SessionCreationPolicy;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.web.SecurityFilterChain;
 import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
+import org.springframework.web.cors.CorsConfiguration;
+import org.springframework.web.cors.UrlBasedCorsConfigurationSource;
+import org.springframework.web.filter.CorsFilter;
 
 import com.example.mydaily.auth.JwtAuthenticationEntryPoint;
 import com.example.mydaily.auth.JwtTokenFilter;
@@ -20,49 +30,84 @@ import com.example.mydaily.business.concretes.UserDetailServiceImp;
 @EnableWebSecurity
 public class SecurityConfig {
 
-	private UserDetailServiceImp userDetailsService;
+	@Autowired
+	private UserDetailServiceImp detailServiceImp;
 	
+	@Autowired
 	private JwtAuthenticationEntryPoint handler;
-	
-    public SecurityConfig(UserDetailServiceImp userDetailsService, JwtAuthenticationEntryPoint handler) {
-        this.userDetailsService = userDetailsService;
-        this.handler = handler;
-    }
-	
-    	@Bean
-	    public JwtTokenFilter jwtAuthenticationFilter() {
-	    	return new JwtTokenFilter();
-	    }
+		
+		 @Bean
+		    public JwtTokenFilter authenticationJwtTokenFilter() {
+		        return new JwtTokenFilter();
+		    }
 	    
-    	 @Bean
-    	    AuthenticationManager authenticationManager(AuthenticationManagerBuilder builder) throws Exception {
-    	        return builder.userDetailsService(userDetailsService).passwordEncoder(encoder()).and().build();
-    	    }
-	    
+		@Bean
+		public AuthenticationManager authenticationManager(
+		        AuthenticationConfiguration authConfig) throws Exception {
+		    return authConfig.getAuthenticationManager();
+		}
 
-	    @Autowired
-	    public void configurePasswordEncoder(AuthenticationManagerBuilder builder) throws Exception {
-	    	builder.userDetailsService(userDetailsService).passwordEncoder(encoder());
-	    }
-
-	    @Bean
-	    public BCryptPasswordEncoder encoder() {
-	    	return new BCryptPasswordEncoder();
-	    }
+		@Bean
+		public DaoAuthenticationProvider authenticationProvider() {
+		    DaoAuthenticationProvider authProvider = new DaoAuthenticationProvider();
+		     
+		    authProvider.setUserDetailsService(detailServiceImp);
+		    authProvider.setPasswordEncoder(encoder());
+		 
+		    return authProvider;
+		}
+		
+		  @Bean
+		    public BCryptPasswordEncoder encoder() {
+		    	return new BCryptPasswordEncoder();
+		    }
 	    
+		
 	    @Bean
 	    public SecurityFilterChain filter(HttpSecurity http)throws Exception{
-	    	http.cors().and().csrf().disable()
+	    	http
+	    		.cors()
+	    		.and()
+	    		.csrf().disable()
 	    		.exceptionHandling().authenticationEntryPoint(handler).and()
+	    		.authenticationProvider(authenticationProvider())
 	    		.sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS).and()
 	    		.authorizeRequests()
 	    		.antMatchers("/auth/**")
 	    		.permitAll()
+	    		.antMatchers(HttpMethod.GET,"/questions")
+	    		.permitAll()
+	    		.antMatchers(HttpMethod.GET,"/user")
+	    		.permitAll()
+	    		.antMatchers(HttpMethod.DELETE,"/user/*")
+	    		.permitAll()
 	    		.anyRequest().authenticated();
+	    		
 	    	
-	    	http.addFilterBefore(jwtAuthenticationFilter(), UsernamePasswordAuthenticationFilter.class);
-	    	
+	    	http.addFilterBefore(authenticationJwtTokenFilter(), UsernamePasswordAuthenticationFilter.class);
+
 	    	return http.build();
 	    }
+	    
+	   
+	    
+	    @Bean
+	    public CorsFilter corsFilter() {
+	        UrlBasedCorsConfigurationSource source = new UrlBasedCorsConfigurationSource();
+	        CorsConfiguration config = new CorsConfiguration();
+	        config.setAllowCredentials(true);
+	        config.addAllowedOriginPattern("*");
+	        config.addAllowedHeader("*");
+	        config.addAllowedMethod("OPTIONS");
+	        config.addAllowedMethod("HEAD");
+	        config.addAllowedMethod("GET");
+	        config.addAllowedMethod("PUT");
+	        config.addAllowedMethod("POST");
+	        config.addAllowedMethod("DELETE");
+	        config.addAllowedMethod("PATCH");
+	        source.registerCorsConfiguration("/**", config);
+	        return new CorsFilter(source);
+	    }
+	   
 	   
 }

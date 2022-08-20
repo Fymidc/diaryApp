@@ -53,10 +53,10 @@ public class UserManager implements UserService {
 	}
 
 	@Override
-	public UserResponse getOneUserByUserName(String username) {
+	public User getOneUserByUserName(String username) {
 		
 		User user = userdao.findByUserName(username);
-		return new UserResponse(user);
+		return user;
 	}
 
 	@Override
