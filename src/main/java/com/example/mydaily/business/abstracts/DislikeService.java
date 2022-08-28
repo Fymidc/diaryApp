@@ -10,7 +10,7 @@ import com.example.mydaily.entities.Dislike;
 public interface DislikeService {
 
 
-	List<DislikeResponse> getAllLikes(Optional<Long> userid,Optional<Long> postid);
+	List<DislikeResponse> getAllDislikes(Optional<Long> userid,Optional<Long> postid);
 	void deleteOneDisLike(Long userid);
 	Dislike createOneDisLike(Dislike request);
 }

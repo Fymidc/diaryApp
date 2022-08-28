@@ -13,6 +13,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.example.mydaily.business.abstracts.LikeService;
+import com.example.mydaily.dtos.LikeCreateRequest;
 import com.example.mydaily.dtos.LikeResponse;
 import com.example.mydaily.entities.Like;
 
@@ -37,7 +38,7 @@ public class LikeController {
 	}
 	
 	@PostMapping
-	public Like createOneLike(@RequestBody Like request) {
+	public Like createOneLike(@RequestBody LikeCreateRequest request) {
 		return likeService.createOneLike(request);
 	}
 }

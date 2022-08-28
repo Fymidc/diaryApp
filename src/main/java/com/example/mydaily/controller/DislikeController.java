@@ -27,17 +27,17 @@ public class DislikeController {
 	}
 	
 	@GetMapping
-	public List<DislikeResponse> getAllLikes(@RequestParam Optional<Long> userid , @RequestParam Optional<Long> postid){
-		return dislikeService.getAllLikes(userid, postid);
+	public List<DislikeResponse> getAllDislikes(@RequestParam Optional<Long> userid , @RequestParam Optional<Long> postid){
+		return dislikeService.getAllDislikes(userid, postid);
 	}
 	
 	@DeleteMapping("/{id}")
-	void deleteOneLike( @PathVariable Long id ) {
+	void deleteOneDislike( @PathVariable Long id ) {
 		dislikeService.deleteOneDisLike(id);
 	}
 	
 	@PostMapping
-	public Dislike createOneLike(@RequestBody Dislike request) {
+	public Dislike createOneDislike(@RequestBody Dislike request) {
 		return dislikeService.createOneDisLike(request);
 	}
 }

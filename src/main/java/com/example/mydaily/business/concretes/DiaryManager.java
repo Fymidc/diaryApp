@@ -3,16 +3,22 @@ package com.example.mydaily.business.concretes;
 import java.util.Date;
 import java.util.List;
 import java.util.Optional;
+import java.util.stream.Collectors;
+
+import javax.transaction.Transactional;
 
 import org.springframework.stereotype.Service;
 
 import com.example.mydaily.business.abstracts.DiaryService;
 import com.example.mydaily.dataaccess.DiaryDao;
 import com.example.mydaily.dataaccess.UserDao;
+import com.example.mydaily.dtos.DiaryCreateRequest;
+import com.example.mydaily.dtos.DiaryResponse;
 import com.example.mydaily.dtos.DiaryUpdateRequest;
 import com.example.mydaily.entities.Diary;
 import com.example.mydaily.entities.User;
 
+@Transactional
 @Service
 public class DiaryManager implements DiaryService {
 	
@@ -25,12 +31,14 @@ public class DiaryManager implements DiaryService {
 	}
 
 	@Override
-	public List<Diary> getAllDiaries(Optional<Long> userid) {
-		
+	public List<DiaryResponse> getAllDiaries(Optional<Long> userid) {
+		List<Diary> list;
 		if(userid.isPresent()) {
-			return diaryDao.findByUserId(userid.get());
+			list = diaryDao.findByUserId(userid);
+		}else{
+			list = diaryDao.findAll();
 		}
-		return diaryDao.findAll();
+		return list.stream().map(e-> new DiaryResponse(e)).collect(Collectors.toList());
 	}
 
 	@Override
@@ -46,8 +54,8 @@ public class DiaryManager implements DiaryService {
 	}
 
 	@Override
-	public Diary createOneDiary(Diary newDiary) {
-		Optional<User> user = userDao.findById(newDiary.getUser().getId());
+	public Diary createOneDiary(DiaryCreateRequest newDiary) {
+		Optional<User> user = userDao.findById(newDiary.getUserid());
 		
 		if(user.isPresent()) {
 			Diary diary = new Diary();

@@ -12,6 +12,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.example.mydaily.business.abstracts.AnswersService;
+import com.example.mydaily.dtos.AnswerCreateRequest;
 import com.example.mydaily.dtos.AnswerUpdateRequest;
 import com.example.mydaily.entities.Answers;
 
@@ -25,13 +26,14 @@ public class AnswerController {
 		this.answersService=answersService;
 		
 	}
-	
+	/*
 	@GetMapping("/{id}")
 	public List<Answers> getAllAnswers(@PathVariable Long id){
 		return answersService.getAllAnswers(id);
 	}
+	*/
 	
-	@GetMapping("/oneanswer/{id}")
+	@GetMapping("/{id}")
 	public Answers getOneAnswerById(@PathVariable Long id ) {
 		return answersService.getOneAnswerById(id);
 	}
@@ -42,12 +44,13 @@ public class AnswerController {
 	}
 	
 	@PostMapping
-	public Answers createOneAnswers(@RequestBody Answers request) {
+	public Answers createOneAnswers(@RequestBody AnswerCreateRequest request) {
 		return answersService.createOneAnswers(request);
 	}
-	
+	/*
 	@PutMapping("/{id}")
 	public Answers updateOneAnswer(@PathVariable Long id ,@RequestBody AnswerUpdateRequest request) {
 		return answersService.updateOneAnswer(id, request);
 	}
+	*/
 }

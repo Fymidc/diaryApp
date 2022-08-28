@@ -1,14 +1,25 @@
 package com.example.mydaily.entities;
 
+import java.util.ArrayList;
 import java.util.List;
 
+import javax.persistence.Column;
+import javax.persistence.ElementCollection;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.ManyToMany;
+import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
+
+import org.hibernate.annotations.OnDelete;
+import org.hibernate.annotations.OnDeleteAction;
+
+import com.fasterxml.jackson.annotation.JsonIgnore;
 
 import lombok.AllArgsConstructor;
 import lombok.Data;
@@ -29,11 +40,21 @@ public class User {
 	private String userName;
 	
 	private String password;
-	
+	/*
+	@ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "question_id", nullable = true)
+    @OnDelete(action = OnDeleteAction.CASCADE)
+    @JsonIgnore
+	private Question question;
 	//private String bios;
 	
 	@OneToMany(targetEntity=Friends.class, mappedBy="user", fetch=FetchType.EAGER)
 	private List<Friends> friends; 
+	*/
+	@ElementCollection
+	private List<Long> friendsid;
+
+
 	
 	
 	

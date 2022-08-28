@@ -43,6 +43,12 @@ public class Answers {
 	@JsonIgnore
 	private User user;
 	
+	@ManyToOne(fetch = FetchType.EAGER)
+	@JoinColumn(name = "question_id",nullable = false)
+	@OnDelete(action = OnDeleteAction.CASCADE)
+	
+	private Question question;
+	
 	@Temporal(TemporalType.DATE)
 	private Date date;
 	

@@ -14,6 +14,8 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.example.mydaily.business.abstracts.PostService;
+import com.example.mydaily.dtos.PostCreateRequest;
+import com.example.mydaily.dtos.PostResponse;
 import com.example.mydaily.dtos.PostUpdateRequest;
 import com.example.mydaily.entities.Post;
 
@@ -28,7 +30,7 @@ public class PostController {
 	}
 	
 	@GetMapping
-	public List<Post> getAllPosts(@RequestParam Optional<Long> userid){
+	public List<PostResponse> getAllPosts(@RequestParam Optional<Long> userid){
 		return postService.getAllPosts(userid);
 	}
 	
@@ -42,7 +44,7 @@ public class PostController {
 	}
 	
 	@PostMapping
-	public Post createOnePost(@RequestBody Post request) {
+	public Post createOnePost(@RequestBody PostCreateRequest request) {
 		return postService.createOnePost(request);
 	}
 	

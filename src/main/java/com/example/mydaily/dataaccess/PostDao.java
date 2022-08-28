@@ -5,10 +5,13 @@ import java.util.Optional;
 
 import org.springframework.data.jpa.repository.JpaRepository;
 
+import com.example.mydaily.dtos.PostResponse;
 import com.example.mydaily.entities.Post;
 
 public interface PostDao extends JpaRepository<Post, Long>{
 
 	List<Post> findByUserId(Optional<Long> userid);
 
+	Post findById(Optional<Long> postid);
+	
 }

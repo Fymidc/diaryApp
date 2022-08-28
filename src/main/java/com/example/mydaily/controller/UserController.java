@@ -1,8 +1,9 @@
 package com.example.mydaily.controller;
 
 import java.util.List;
+import java.util.Optional;
 
-
+import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -10,15 +11,17 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.example.mydaily.business.abstracts.UserService;
 import com.example.mydaily.dtos.UserResponse;
-import com.example.mydaily.entities.Friends;
+
 import com.example.mydaily.entities.User;
 
 @RestController
 @RequestMapping("/user")
+@CrossOrigin
 public class UserController {
 	
 	private final UserService userService;
@@ -58,8 +61,13 @@ public class UserController {
 	}
 	
 	@GetMapping("/friends/{id}")
-	public List<Friends> getAllFriends(@PathVariable Long id){
+	public List<Optional<User>> getAllFriends(@PathVariable Long id){
 		return userService.getAllFriends(id);
+	}
+	
+	@PostMapping("/friends/add")
+	public User addFriends(@RequestParam (required = true) Long userid,Long friendsid) {
+		return userService.addFriends(userid, friendsid);
 	}
 	
 }

@@ -2,9 +2,9 @@ package com.example.mydaily.business.abstracts;
 
 
 import java.util.List;
+import java.util.Optional;
 
 import com.example.mydaily.dtos.UserResponse;
-import com.example.mydaily.entities.Friends;
 import com.example.mydaily.entities.User;
 
 public interface UserService {
@@ -14,5 +14,6 @@ public interface UserService {
 	void deleteOneUser(Long userid);
 	User getOneUserByUserName(String username);
 	User updateOneUser(Long userid,User newUser);
-	List<Friends> getAllFriends(Long userid);
+	List<Optional<User>> getAllFriends(Long userid);
+	User addFriends(Long userid,Long friednsid);
 }

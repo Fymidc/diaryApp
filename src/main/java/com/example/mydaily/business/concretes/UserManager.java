@@ -1,5 +1,6 @@
 package com.example.mydaily.business.concretes;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 import java.util.stream.Collectors;
@@ -9,7 +10,7 @@ import org.springframework.stereotype.Service;
 import com.example.mydaily.business.abstracts.UserService;
 import com.example.mydaily.dataaccess.UserDao;
 import com.example.mydaily.dtos.UserResponse;
-import com.example.mydaily.entities.Friends;
+
 import com.example.mydaily.entities.User;
 
 @Service
@@ -35,7 +36,7 @@ public class UserManager implements UserService {
 		userToSave.setId(user.getId());
 		userToSave.setUserName(user.getUserName());
 		userToSave.setPassword(user.getPassword());
-		userToSave.setFriends(user.getFriends());
+		userToSave.setFriendsid(user.getFriendsid());
 		
 		return userdao.save(userToSave);
 	}
@@ -77,12 +78,32 @@ public class UserManager implements UserService {
 	}
 
 	@Override
-	public List<Friends> getAllFriends(Long userid) {
+	public List<Optional<User>> getAllFriends(Long userid) {
+		List<Optional<User>> list;
+		
 		User user = userdao.findById(userid).get();
 		
-		List<Friends> friends = user.getFriends();
+		List<Long> friends = user.getFriendsid();
+		list =friends.stream().map(e-> userdao.findById(e) ).collect(Collectors.toList());
 		
-		return friends;
+		return list;
+	}
+
+	@Override
+	public User addFriends(Long userid,Long friendsid) {
+		Optional<User> user = userdao.findById(userid);
+		Optional<User> friend = userdao.findById(friendsid);
+		List<Long> list = new ArrayList<>();
+		
+		if(user.isPresent()&& friend.isPresent()) {
+			User foundeduser = user.get();
+			list.add(friend.get().getId());
+			foundeduser.setFriendsid(list);
+			
+			return userdao.save(foundeduser);
+		}
+		
+		return null;
 	}
 	
 

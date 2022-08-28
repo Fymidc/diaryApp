@@ -10,6 +10,7 @@ import com.example.mydaily.business.abstracts.LikeService;
 import com.example.mydaily.dataaccess.LikeDao;
 import com.example.mydaily.dataaccess.PostDao;
 import com.example.mydaily.dataaccess.UserDao;
+import com.example.mydaily.dtos.LikeCreateRequest;
 import com.example.mydaily.dtos.LikeResponse;
 import com.example.mydaily.entities.Like;
 import com.example.mydaily.entities.Post;
@@ -52,9 +53,9 @@ public class LikeManager implements LikeService {
 	}
 
 	@Override
-	public Like createOneLike(Like request) {
-		User user = userDao.findById(request.getUser().getId()).get();
-		Post post = postDao.findById(request.getPost().getId()).get();
+	public Like createOneLike(LikeCreateRequest request) {
+		User user = userDao.findById(request.getUserid()).get();
+		Post post = postDao.findById(request.getPostid()).get();
 		
 		Like liketoSave = new Like();
 		

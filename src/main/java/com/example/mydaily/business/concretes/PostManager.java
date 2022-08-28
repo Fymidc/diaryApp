@@ -1,14 +1,18 @@
 package com.example.mydaily.business.concretes;
 
+
 import java.util.Date;
 import java.util.List;
 import java.util.Optional;
+import java.util.stream.Collectors;
 
 import org.springframework.stereotype.Service;
 
 import com.example.mydaily.business.abstracts.PostService;
 import com.example.mydaily.dataaccess.PostDao;
 import com.example.mydaily.dataaccess.UserDao;
+import com.example.mydaily.dtos.PostCreateRequest;
+import com.example.mydaily.dtos.PostResponse;
 import com.example.mydaily.dtos.PostUpdateRequest;
 import com.example.mydaily.entities.Post;
 import com.example.mydaily.entities.User;
@@ -25,11 +29,15 @@ public class PostManager implements PostService {
 	}
 
 	@Override
-	public List<Post> getAllPosts(Optional<Long> userid) {
+	public List<PostResponse> getAllPosts(Optional<Long> userid) {
+		List<Post> list;
 		if(userid.isPresent()) {
-			return postDao.findByUserId(userid);
+			list= postDao.findByUserId(userid);
+		}else {
+			list = postDao.findAll();
 		}
-		return postDao.findAll();
+		
+		return list.stream().map(e-> new PostResponse(e)).collect(Collectors.toList());
 	}
 
 	@Override
@@ -45,8 +53,9 @@ public class PostManager implements PostService {
 	}
 
 	@Override
-	public Post createOnePost(Post newPost) {
-		Optional<User> user = userDao.findById(newPost.getUser().getId());
+	public Post createOnePost(PostCreateRequest newPost) {
+		Optional<User> user = userDao.findById(newPost.getUserid());
+		
 		
 		if(user.isPresent()) {
 			Post post = new Post();

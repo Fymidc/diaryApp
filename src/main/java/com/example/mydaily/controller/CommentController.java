@@ -15,7 +15,9 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.example.mydaily.business.abstracts.CommentService;
-import com.example.mydaily.dtos.CommentResponse;
+import com.example.mydaily.dtos.CommentCreateRequest;
+import com.example.mydaily.dtos.CommentResponseDiary;
+import com.example.mydaily.dtos.CommentResponsePost;
 import com.example.mydaily.dtos.CommentUpdateRequest;
 import com.example.mydaily.entities.Comment;
 
@@ -30,9 +32,18 @@ public class CommentController {
 	}
 	
 	@GetMapping
-	public List<CommentResponse> getAllComments(@RequestParam Optional<Long> userid ,@RequestParam Optional<Long> postid ,@RequestParam Optional<Long> diaryid){
-		return commentService.getAllComments(userid, postid, diaryid);
+	public List<CommentResponsePost> getAllCommentsPost(@RequestParam Optional<Long> userid ,@RequestParam Optional<Long> postid ){
+		
+		return commentService.getAllCommentsPost(userid, postid);
+		
 	}
+	
+
+	@GetMapping("/diary")
+	public List<CommentResponseDiary> getAllCommentsDiary(@RequestParam Optional<Long> userid  ,@RequestParam Optional<Long> diaryid){
+		return commentService.getAllCommentsDiary(userid, diaryid);
+	}
+	
 	
 	@DeleteMapping("/{id}")
 	void deleteOneComment(@PathVariable Long id) {
@@ -40,8 +51,8 @@ public class CommentController {
 	}
 	
 	@PostMapping
-	public Comment createOneComment(@RequestBody Comment request) {
-		return commentService.createOneComment(request);
+	public Comment createOneComment(@RequestParam Optional<Long> postid,@RequestParam Optional<Long> diaryid ,@RequestBody CommentCreateRequest request) {
+		return commentService.createOneComment(postid,diaryid,request);
 	}
 	
 	@PutMapping("/{id}")

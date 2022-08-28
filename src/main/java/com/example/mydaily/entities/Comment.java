@@ -16,6 +16,7 @@ import javax.persistence.TemporalType;
 
 import org.hibernate.annotations.OnDelete;
 import org.hibernate.annotations.OnDeleteAction;
+import org.springframework.lang.Nullable;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 
@@ -39,14 +40,15 @@ public class Comment {
 	@Temporal(TemporalType.DATE)
 	private Date date;
 	
-	@ManyToOne(fetch = FetchType.LAZY)
-	@JoinColumn(name = "post_id",nullable = false)
+	@ManyToOne(optional = true,fetch = FetchType.LAZY)
+	@JoinColumn(name = "post_id")
 	@OnDelete(action = OnDeleteAction.CASCADE)
 	@JsonIgnore
 	private Post post;
 	
-	@ManyToOne(fetch = FetchType.LAZY)
-	@JoinColumn(name = "diary_id",nullable = false)
+	
+	@ManyToOne(optional = true, fetch = FetchType.LAZY)
+	@JoinColumn(name = "diaries_id")
 	@OnDelete(action = OnDeleteAction.CASCADE)
 	@JsonIgnore
 	private Diary diary;

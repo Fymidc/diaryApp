@@ -4,13 +4,17 @@ import java.util.List;
 import java.util.Optional;
 
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.example.mydaily.business.abstracts.QuestionService;
+import com.example.mydaily.dtos.QuestionCreateRequest;
+import com.example.mydaily.dtos.QuestionUpdateRequest;
 import com.example.mydaily.entities.Question;
 
 @RestController
@@ -29,8 +33,18 @@ public class QuestionController {
 	}
 	
 	@PostMapping
-	public Question createOneQuestion(@RequestBody Question question ) {
+	public Question createOneQuestion(@RequestBody QuestionCreateRequest question ) {
 		return questionsService.createOneQuestion(question);
+	}
+	
+	@PutMapping("/{id}")
+	public Question updateOneQuestion(@PathVariable Long id , @RequestBody QuestionUpdateRequest request) {
+		return questionsService.updateOneQuestionById(id, request);
+	}
+	
+	@GetMapping("/perday")
+	public List<Question> getOneQuestionPerday() {
+		return questionsService.getOneQuestionPerDay();
 	}
 	
 }

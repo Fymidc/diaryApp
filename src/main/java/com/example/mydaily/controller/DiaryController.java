@@ -15,6 +15,8 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.example.mydaily.business.abstracts.DiaryService;
+import com.example.mydaily.dtos.DiaryCreateRequest;
+import com.example.mydaily.dtos.DiaryResponse;
 import com.example.mydaily.dtos.DiaryUpdateRequest;
 import com.example.mydaily.entities.Diary;
 
@@ -30,7 +32,7 @@ public class DiaryController {
 	}
 	
 	@GetMapping
-	public List<Diary>getAllDiaries(@RequestParam Optional<Long> userid) {
+	public List<DiaryResponse>getAllDiaries(@RequestParam Optional<Long> userid) {
 	 return diaryService.getAllDiaries(userid);
 	}
 	
@@ -45,7 +47,7 @@ public class DiaryController {
 	}
 	
 	@PostMapping
-	public Diary createOneDiary(@RequestBody Diary request) {
+	public Diary createOneDiary(@RequestBody DiaryCreateRequest request) {
 		return diaryService.createOneDiary(request);
 	}
 	

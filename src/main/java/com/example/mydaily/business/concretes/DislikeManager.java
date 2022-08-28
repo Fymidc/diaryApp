@@ -29,7 +29,7 @@ public class DislikeManager implements DislikeService {
 	}
 	
 	@Override
-	public List<DislikeResponse> getAllLikes(Optional<Long> userid, Optional<Long> postid) {
+	public List<DislikeResponse> getAllDislikes(Optional<Long> userid, Optional<Long> postid) {
 		
 		List<Dislike> list;
 		if(userid.isPresent()&&postid.isPresent()) {
