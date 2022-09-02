@@ -42,6 +42,14 @@ public class DiaryManager implements DiaryService {
 	}
 
 	@Override
+	public List<DiaryResponse> getAllDiariesIfNotHidden() {
+		List<Diary> list;
+		list = diaryDao.findByIsHidden();
+		
+		return list.stream().map(e->new DiaryResponse(e)).collect(Collectors.toList());
+	}
+	
+	@Override
 	public Diary getOneDiaryById(Long diariesid) {
 		
 		return diaryDao.findById(diariesid).orElseThrow();
@@ -79,7 +87,6 @@ public class DiaryManager implements DiaryService {
 		
 		if(findeddiary.isPresent()) {
 			Diary diaryToUpdate = findeddiary.get();
-			diaryToUpdate.setText(request.getText());
 			diaryToUpdate.setIshidden(request.isIshidden());
 			
 			return diaryDao.save(diaryToUpdate);
@@ -87,5 +94,7 @@ public class DiaryManager implements DiaryService {
 		
 		return null;
 	}
+
+
 
 }

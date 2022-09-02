@@ -1,7 +1,10 @@
 package com.example.mydaily.controller;
 
+import java.util.ArrayList;
+import java.util.Collection;
 import java.util.List;
 import java.util.Optional;
+import java.util.stream.Collectors;
 
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -43,8 +46,32 @@ public class QuestionController {
 	}
 	
 	@GetMapping("/perday")
-	public List<Question> getOneQuestionPerday() {
-		return questionsService.getOneQuestionPerDay();
+	public List<Question> getOneQuestionPerday(@RequestParam Long userid) {
+		return questionsService.getOneQuestionPerDay(userid);
 	}
 	
+	@GetMapping("/userq")
+	public List<Question> getQuestionsByUserId(@RequestParam Long userid) {
+		
+		
+		return questionsService.getQuestionsByUserId(userid);
+	}
+	
+	/*
+	@GetMapping("/perday/{id}")
+	public List<Question> getOneQuestionPerday(@PathVariable Long userid) {
+		
+		return questionsService.getOneQuestionPerDay(userid);
+		
+		
+	}
+	*/
+	
+	/*
+	@GetMapping("/perday")
+	public Collection<Question> findByUserIdNotIn(@RequestParam(required=false,name="userid") Collection<Long> userid){
+		return questionsService.findByUseridNotIn(userid);
+	}
+	
+	*/
 }

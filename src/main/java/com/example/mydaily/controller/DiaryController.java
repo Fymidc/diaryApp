@@ -30,10 +30,21 @@ public class DiaryController {
 	public DiaryController(DiaryService diaryService) {
 		this.diaryService=diaryService;
 	}
-	
+	/*
 	@GetMapping
 	public List<DiaryResponse>getAllDiaries(@RequestParam Optional<Long> userid) {
 	 return diaryService.getAllDiaries(userid);
+	}
+	*/
+	
+	@GetMapping
+	public List<DiaryResponse>getAllDiaries(@RequestParam Optional<Long> userid) {
+		if(userid.isPresent()) {
+			return diaryService.getAllDiaries(userid);
+		}else {
+			return diaryService.getAllDiariesIfNotHidden();
+		}
+	 
 	}
 	
 	@GetMapping("/{diaryid}")

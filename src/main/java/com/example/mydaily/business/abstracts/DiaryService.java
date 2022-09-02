@@ -11,6 +11,8 @@ import com.example.mydaily.entities.Diary;
 public interface DiaryService {
 
 	List<DiaryResponse> getAllDiaries(Optional<Long> userid);
+	List<DiaryResponse> getAllDiariesIfNotHidden();
+	
 	Diary getOneDiaryById(Long diariesid);
 	void deleteDiary(Long diariesid);
 	Diary createOneDiary (DiaryCreateRequest newDiary);

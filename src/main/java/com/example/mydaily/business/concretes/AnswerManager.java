@@ -60,7 +60,8 @@ public class AnswerManager implements AnswersService {
 		
 		Optional<User> user = userdao.findById(newAnswer.getUserid());
 		Optional<Question> question = questiondao.findById(newAnswer.getQuestionid());
-		List<Long> list = new ArrayList<>();
+		List<Answers> uanswer = answerDao.findByUserId(newAnswer.getUserid());
+		
 		
 		if(user.isPresent() && question.isPresent() ) {
 			Answers answer = new Answers();
@@ -73,17 +74,23 @@ public class AnswerManager implements AnswersService {
 			answer.setQuestion( question.get());
 			
 			
-			list.add(user.get().getId());
-			
 			Question answeredQuestion = question.get();
-			
-			answeredQuestion.setUserid(list);
-			if(list.contains(user.get().getId())) {
+			if(uanswer.stream().map(e-> e.getUser() == user.get()) != null) {
+
 				answeredQuestion.setAnswered(true);
 			}else {
 				answeredQuestion.setAnswered(false);
 			}
 			
+			//questiona list ekle methodu 
+			//list = list.add olarak yazmayı dene 
+			/*
+			if(list.contains(user.get().getId())) {
+				answeredQuestion.setAnswered(true);
+			}else {
+				answeredQuestion.setAnswered(false);
+			}
+			*/
 			
 			return answerDao.save(answer);
 			

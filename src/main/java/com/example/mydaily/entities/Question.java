@@ -1,5 +1,6 @@
 package com.example.mydaily.entities;
 
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
@@ -48,9 +49,12 @@ public class Question {
 	/*
 	@OneToMany(targetEntity=User.class, mappedBy="question", fetch=FetchType.EAGER)
 	private List<User> user;
-	*/
-	@ElementCollection
-	private List<Long> userid;
 	
+	@ManyToOne(fetch = FetchType.LAZY)
+	@JoinColumn(name = "users_id",nullable = false)
+	@OnDelete(action = OnDeleteAction.CASCADE)
+	@JsonIgnore
+	private User user;
+	*/
 	private boolean isAnswered;
 }
