@@ -70,4 +70,8 @@ public class UserController {
 		return userService.addFriends(userid, friendsid);
 	}
 	
+	@PostMapping("/friends/delete")
+	void removeOneFriend(@RequestParam (required = true) Long userid,Long friendsid) {
+		 userService.removeOneFriend(userid, friendsid);
+	}
 }

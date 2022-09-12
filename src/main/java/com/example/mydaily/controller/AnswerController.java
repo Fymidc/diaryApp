@@ -9,6 +9,7 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.example.mydaily.business.abstracts.AnswersService;
@@ -32,6 +33,11 @@ public class AnswerController {
 		return answersService.getAllAnswers(id);
 	}
 	*/
+	
+	@GetMapping("/user")
+	public List<Answers> getAllAnswersByUserIdAndQuestionId(@RequestParam Long userid,@RequestParam Long questionid) {
+		return answersService.getAllAnswersByUserIdAndQuestionId(userid, questionid);
+	}
 	
 	@GetMapping("/{id}")
 	public Answers getOneAnswerById(@PathVariable Long id ) {

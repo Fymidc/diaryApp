@@ -41,6 +41,11 @@ public class AnswerManager implements AnswersService {
 		return null;
 	}
 	*/
+	@Override
+	public List<Answers> getAllAnswersByUserIdAndQuestionId(Long userid, Long questionid) {
+		
+		return answerDao.findByUserIdAndQuestionId(userid, questionid);
+	}
 
 	@Override
 	public Answers getOneAnswerById(Long answerid ) {
@@ -114,4 +119,6 @@ public class AnswerManager implements AnswersService {
 	}
 
  	*/
+
+	
 }

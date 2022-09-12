@@ -10,6 +10,7 @@ import javax.transaction.Transactional;
 import org.springframework.stereotype.Service;
 
 import com.example.mydaily.business.abstracts.DiaryService;
+import com.example.mydaily.dataaccess.CommentDao;
 import com.example.mydaily.dataaccess.DiaryDao;
 import com.example.mydaily.dataaccess.UserDao;
 import com.example.mydaily.dtos.DiaryCreateRequest;
@@ -24,10 +25,12 @@ public class DiaryManager implements DiaryService {
 	
 	private final DiaryDao diaryDao;
 	private final UserDao userDao;
+	private final CommentDao commentDao;
 	
-	public DiaryManager(DiaryDao diaryDao,UserDao userDao) {
+	public DiaryManager(DiaryDao diaryDao,UserDao userDao,CommentDao commentDao) {
 		this.diaryDao=diaryDao;
 		this.userDao=userDao;
+		this.commentDao = commentDao;
 	}
 
 	@Override
@@ -38,7 +41,7 @@ public class DiaryManager implements DiaryService {
 		}else{
 			list = diaryDao.findAll();
 		}
-		return list.stream().map(e-> new DiaryResponse(e)).collect(Collectors.toList());
+		return list.stream().map(e-> new DiaryResponse(e,commentDao)).collect(Collectors.toList());
 	}
 
 	@Override
@@ -46,7 +49,7 @@ public class DiaryManager implements DiaryService {
 		List<Diary> list;
 		list = diaryDao.findByIsHidden();
 		
-		return list.stream().map(e->new DiaryResponse(e)).collect(Collectors.toList());
+		return list.stream().map(e->new DiaryResponse(e,commentDao)).collect(Collectors.toList());
 	}
 	
 	@Override

@@ -105,6 +105,22 @@ public class UserManager implements UserService {
 		
 		return null;
 	}
+
+	@Override
+	public void removeOneFriend(Long userid, Long friendsid) {
+		Optional<User> user = userdao.findById(userid);
+		Optional<User> friend = userdao.findById(friendsid);
+		
+	
+		if(user.isPresent()&& friend.isPresent()) {
+			User foundeduser = user.get();
+			foundeduser.getFriendsid().remove(friend.get().getId());
+	
+		}
+		
+
+		
+	}
 	
 
 }

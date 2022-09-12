@@ -16,4 +16,5 @@ public interface UserService {
 	User updateOneUser(Long userid,User newUser);
 	List<Optional<User>> getAllFriends(Long userid);
 	User addFriends(Long userid,Long friednsid);
+	void removeOneFriend(Long userid , Long friendsid);
 }

@@ -12,6 +12,7 @@ public interface AnswersService {
 
 	//List<Answers> getAllAnswers(Long userid);
 	Answers getOneAnswerById(Long answerid);
+	List<Answers> getAllAnswersByUserIdAndQuestionId(Long userid,Long questionid);
 	void deleteAnswer(Long answerid);
 	Answers createOneAnswers(AnswerCreateRequest newAnswer);
 	//Answers updateOneAnswer(Long answerid , AnswerUpdateRequest request);

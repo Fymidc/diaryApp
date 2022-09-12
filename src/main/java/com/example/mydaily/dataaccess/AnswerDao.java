@@ -13,5 +13,6 @@ public interface AnswerDao extends JpaRepository<Answers, Long> {
 
 	List<Answers> findByUserId(Long long1);
 	List<Answers> findByUserIdAndQuestionIdIn( Long questionid,List<Long> questionid2);
+	List<Answers> findByUserIdAndQuestionId( Long userid , Long questionid);
 
 }
