@@ -115,6 +115,7 @@ public class UserManager implements UserService {
 		if(user.isPresent()&& friend.isPresent()) {
 			User foundeduser = user.get();
 			foundeduser.getFriendsid().remove(friend.get().getId());
+			userdao.save(foundeduser);
 	
 		}
 		
